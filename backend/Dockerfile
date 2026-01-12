@@ -1,6 +1,20 @@
-FROM python:3.10-slim
+# Use official Node.js image
+FROM node:18-slim
+
+# Set working directory
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --production
+
+# Copy the rest of the app
 COPY . .
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:5000"]
+
+# Expose the port your app runs on
+EXPOSE 3000
+
+# Start the server
+CMD ["node", "src/server.js"]

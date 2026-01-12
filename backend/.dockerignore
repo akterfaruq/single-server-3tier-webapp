@@ -1,3 +1,22 @@
-__pycache__
+# Node modules (we install inside Docker)
+node_modules
+
+# Logs
+*.log
+
+# Environment files (optional if you set them via secrets)
 .env
+.env.local
+.env.*.local
+
+# Git files
 .git
+.gitignore
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Dockerfile and CI config (optional)
+Dockerfile.dev
+.github
