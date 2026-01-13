@@ -1,24 +1,43 @@
 version: "3.9"
 
 services:
-  frontend:
-    build: ./frontend
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: finchdb
+      POSTGRES_USER: finchuser
+      POSTGRES_PASSWORD: finchpass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
-      - "3000:80"
-
-  backend:
-    build: ./backend
-    ports:
-      - "5000:5000"
+      - "5432:5432"
 
   redis:
     image: redis:7
+    container_name: redis
     ports:
       - "6379:6379"
 
-  postgres:
-    image: postgres:15
+  backend:
+    image: finch-backend:latest
+    container_name: finch-backend
+    depends_on:
+      - postgres
+      - redis
     environment:
-      POSTGRES_DB: appdb
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: secret
+      DATABASE_URL: postgres://finchuser:finchpass@postgres:5432/finchdb
+      REDIS_HOST: redis
+    ports:
+      - "3000:3000"
+
+  frontend:
+    image: finch-frontend:latest
+    container_name: finch-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  pgdata:
