@@ -64,6 +64,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
-            -Dsonar.projectKey=ostad_backend_project
+            -Dsonar.projectKey=akterfaruq_finch-backend
+            -Dsonar.organization=akterfaruq
             -Dsonar.sources=backend
             -Dsonar.sourceEncoding=UTF-8
