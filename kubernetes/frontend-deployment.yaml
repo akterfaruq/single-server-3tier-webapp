@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: finch-frontend:latest
+          image: akterfaruq/finch-frontend:latest
           ports:
             - containerPort: 80
 ---

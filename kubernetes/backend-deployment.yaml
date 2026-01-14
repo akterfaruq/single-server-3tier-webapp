@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: finch-backend:latest
+          image: akterfaruq/finch-backend:latest
           env:
             - name: DATABASE_URL
               value: postgres://finchuser:finchpass@postgres:5432/finchdb
