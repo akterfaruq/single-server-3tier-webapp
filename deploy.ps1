@@ -4,7 +4,8 @@ Write-Host "Starting deployment..." -ForegroundColor Cyan
 $ingressNamespace = kubectl get ns ingress-nginx --no-headers -o custom-columns=":metadata.name" 2>$null
 if (-not $ingressNamespace) {
     Write-Host "NGINX Ingress Controller not found. Installing..." -ForegroundColor Yellow
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.15.0/deploy/static/provider/cloud/deploy.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.3/deploy/static/provider/cloud/deploy.yaml
+
     Write-Host "Waiting for Ingress controller pods to be ready..."
     kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=180s
 } else {

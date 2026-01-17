@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: finch-ingress
 spec:
+  ingressClassName: nginx   # <- ensures NGINX handles it
   rules:
     - host: finch.local
       http:
@@ -14,3 +15,10 @@ spec:
                 name: frontend
                 port:
                   number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 3000

@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,6 +28,16 @@ spec:
           image: redis:7-alpine
           ports:
             - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+          args:
+            - "--appendonly"
+            - "yes"
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -27,3 +48,4 @@ spec:
     app: redis
   ports:
     - port: 6379
+      targetPort: 6379
